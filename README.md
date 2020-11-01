@@ -5,6 +5,9 @@ Module system for Supercollider using prototypes.
 Clone repo and see module_example_main.sc for how the top file should be layed out.
 
 Each module is intended to be self contained and connected together in the main file.
+This makes simple taskes verbose, but more complex projects can be broken into self contained units and patched together at compile time.
+
+
 To load a module the main file must first manually load the module.sc.
 
 ```supercollider
@@ -19,6 +22,30 @@ Then call mk on the 'global' module object with the relative path.
 ~my_fanastic_mod = ~module.mk.("modules/my_fantastic_module.sc");
 ```
 Almost everything is user definable after this, however each module file has a few 'global' variable that are special. 
+
+#### An fictional example of a main file
+Here 12 channel noise is created.
+A reverb synth listens, mixes it down to 4 chans, applies an effect, mixes it back up to 8.
+Both are routed to the output that mixes both up to 36 channels.
+```supercollider
+//main.sc
+
+~noise = ~module.mk.("modules/noise.sc");
+~noise.opt.numOuts = 12;
+~noise.use { ~init.() };
+
+~rev = ~module.mk.("modules/reverb.sc");
+~rev.opt.internalNumChans = 4;
+~rev.opt.numOuts = 8;
+~rev.opt.target = ~noise.synth; 
+~rev.opt.addAction = \addAfter;
+~rev.use { ~init.() };
+
+~output = ~module.mk.("modules/output.sc");
+~output.opt.speakerNum = 36;
+~output.opt.inBuses = [~rev.outBus, ~noise.outBus];
+~output.use { ~init.() };
+```
 
 ## ~m
 ```supercollider
