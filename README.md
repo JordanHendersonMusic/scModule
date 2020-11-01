@@ -2,11 +2,10 @@
 Module system for Supercollider using prototypes.
 
 ## Instructions
-Clone repo and see module_example_main.sc for how the top file should be layed out.
+Clone repo and see module_example_main.sc for how the top file should be laid out.
 
 Each module is intended to be self contained and connected together in the main file.
-This makes simple taskes verbose, but more complex projects can be broken into self contained units and patched together at compile time.
-
+This makes simple tasks verbose, but more complex projects can be broken into self contained units and patched together at compile time.
 
 To load a module the main file must first manually load the module.sc.
 
@@ -62,7 +61,7 @@ A function that looks for a variable from the top environment down, if there are
 // in modules/my_mod.sc
 ~m.mk_unq.(\name)
 ```
-A function that makes a unique name by concatting the module name and unique id number to the beginning of the input. 
+A function that makes a unique name by concatenating the module name and unique id number to the beginning of the input. 
 Use this to create SynthDef names for example.
 
 ## ~submodules
@@ -71,7 +70,7 @@ Use this to create SynthDef names for example.
 ~submodules = ["array_of_relative_paths_to_submodules"];
 ```
 These are added as parents to the environment. 
-Meaning any 'global' variables can be acessed like usual
+Meaning any 'global' variables can be accessed like usual
 ```supercollider
 // in modules/sub_module.sc
 ~foo = \bar;
@@ -100,7 +99,7 @@ In the top file, this would look this this:
 ~nodes = List[]
 ```
 A list of all server nodes.
-When ever you make something you might want to free when the module is destoryed, add it here.
+When ever you make something you might want to free when the module is destroyed, add it here.
 Typically, synths, buses, groups.
 Do not use ~nodes to stored objects in, you can not get them out. Instead make 'global' variables.
 ```supercollider
@@ -125,7 +124,7 @@ Add symbols so that the users (in the top file) can quickly see what variables t
 // in main.sc
 ~my_mod.public // posts a list of variables the use has access to.
 ```
-# Recomendation for init
+# Recommendation for init
 ```supercollider
 // in modules/my_mod.sc
 ~opt = (\numChans, nil);
