@@ -9,6 +9,7 @@
 /// Functionality used by the module itself
 ~module_base = IdentityDictionary[
 	\m -> ~module_base_core,
+	\submodules -> [],				// array of relative paths
 	\opt -> (), 					// options 
 	\nodes -> List[], 				// server nodes
 	\public -> List[],				// symbol to external stuff
@@ -44,12 +45,15 @@
 		tempEnv.id = id_root[id_root.size - 1].split($.)[0].asString ++ "_" ++ ~module[\get_id].().asString;
 	});
 	isSub.if({},{" ".postln;});
-	isSub.not.if({(indent + "Loading module" + path).postln}, {(indent + "Loading submodule" + path).postln});
+	isSub.not.if(
+		{(indent + "Loading module" + path).postln}, {(indent + "Loading submodule" + path).postln}
+	);
 	tempEnv.insertParent(~module_base.deepCopy(), inf);
 	tempEnv.use({ string.compile.() });
 	tempEnv.submodules.isNil.not.if({(indent + "\t" + "Prepping submodules" + tempEnv.submodules).postln},{});
 	subs = tempEnv.submodules.collect({ |p| ~module.mk.(p, true, indent + "\t\t"); });
 	subs.do({ |sub| tempEnv.insertParent(sub.deepCopy(), 0); });
 	isSub.if({},{" ".postln;});
+	//
 	tempEnv;
 }});
