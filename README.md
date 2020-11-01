@@ -115,3 +115,9 @@ Add symbols so that the users (in the top file) can quickly see what variables t
 ~my_mod.use { ~init.() };     // defines everything then starts synthdef.
 ~my_mod.use { ~freeAll() };   // removes all nodes from server, buses, groups and buffers... whatever is in ~my_mod.nodes
 ```
+
+# modules/audio_multichan_reduce.sc
+In the examples provided the plan has been for each module to have one output bus, but accept an array of input buses.
+To this the file 'modules/audio_multichan_reduce.sc' is used as a submodule.
+It contains a panning and a mixing function that allows the mixing of an array of buses of any size to a target size.
+The size of the buses must be known as this takes place at compile time.
